@@ -1,7 +1,7 @@
 # ares-shared
 
-The script ABI shared by the [ares-gameserver](../ares-gameserver) game server
-and the [ares-compiler](../ares-compiler) compiler: opcodes and their pointer
+The script ABI shared by the [ares-gameserver](https://github.com/sysdevs/ares-gameserver) game server
+and the [ares-compiler](https://github.com/sysdevs/ares-compiler) compiler: opcodes and their pointer
 rules, triggers, pointer types, var type codes, and the compiled script file
 format. The compiler writes scripts with these values and the server reads
 them back, so both crates take every value from here.
