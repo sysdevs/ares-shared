@@ -1,11 +1,12 @@
 //! The script ABI shared by the ares-gameserver server and the ares-compiler compiler:
-//! opcodes and their pointer rules, triggers, pointer types, var type codes and
-//! the compiled script file layout. Every value here reaches compiled script or
+//! opcodes and their pointer rules, triggers, pointer types, var type codes, stat and
+//! NPC mode tables and the compiled script file layout. Every value here reaches compiled script or
 //! pack bytes, so a change is an output change on both sides.
 
 pub mod opcode;
 pub mod pointer;
 pub mod script;
+pub mod tables;
 pub mod trigger;
 pub mod var_type;
 
