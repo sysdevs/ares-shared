@@ -1,6 +1,6 @@
 //! Script opcodes: the bytecode ABI between the compiler and the VM.
 //!
-//! Operand size: opcodes up to 100 carry a 4-byte int, except the five control
+//! Operand size: opcodes below 100 carry a 4-byte int, except the five control
 //! opcodes (`RETURN`, `GOSUB`, `JUMP`, `POP_INT_DISCARD`, `POP_STRING_DISCARD`),
 //! which like every opcode above 100 carry one byte.
 
@@ -51,9 +51,13 @@ opcodes! {
     POP_STRING_DISCARD = 39 "POP_STRING_DISCARD",
     GOSUB_WITH_PARAMS = 40 "GOSUB_WITH_PARAMS",
     JUMP_WITH_PARAMS = 41 "JUMP_WITH_PARAMS",
+    GET_VARC_INT = 42 "GET_VARC_INT",
+    SET_VARC_INT = 43 "SET_VARC_INT",
     DEFINE_ARRAY = 44 "DEFINE_ARRAY",
     PUSH_ARRAY_INT = 45 "PUSH_ARRAY_INT",
     POP_ARRAY_INT = 46 "POP_ARRAY_INT",
+    GET_VARC_STRING = 49 "GET_VARC_STRING",
+    SET_VARC_STRING = 50 "SET_VARC_STRING",
     COORDX = 1000 "COORDX",
     COORDY = 1001 "COORDY",
     COORDZ = 1002 "COORDZ",
@@ -433,9 +437,10 @@ pub fn name(opcode: i32) -> Option<&'static str> {
     OPCODES.iter().find(|&&(_, v)| v == opcode).map(|&(n, _)| n)
 }
 
-/// Whether `opcode` carries a 4-byte operand (else one byte).
+/// Whether `opcode` carries a 4-byte operand (else one byte): opcodes below 100
+/// except the control ones (the client's `cc_create` is 100).
 pub const fn large_operand(opcode: i32) -> bool {
-    opcode <= 100 && !matches!(opcode, op::RETURN | op::POP_INT_DISCARD | op::POP_STRING_DISCARD | op::GOSUB | op::JUMP)
+    opcode < 100 && !matches!(opcode, op::RETURN | op::POP_INT_DISCARD | op::POP_STRING_DISCARD | op::GOSUB | op::JUMP)
 }
 
 /// One command's pointer rules (the `2` lists apply to the secondary `.` form).
@@ -719,7 +724,8 @@ mod tests {
 
     #[test]
     fn operand_sizes() {
-        assert!(large_operand(op::PUSH_CONSTANT_INT) && large_operand(op::POP_ARRAY_INT));
+        assert!(large_operand(op::PUSH_CONSTANT_INT) && large_operand(op::POP_ARRAY_INT) && large_operand(op::GET_VARC_INT));
+        assert!(!large_operand(100));
         assert!(!large_operand(op::RETURN) && !large_operand(op::GOSUB) && !large_operand(op::ADD));
     }
 }

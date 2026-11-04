@@ -47,6 +47,8 @@ pointer_types! {
     LastUseslot "LAST_USESLOT" "last_useslot",
     ActiveInvObj "ACTIVE_INVOBJ" "active_invobj",
     ActiveInvObj2 "ACTIVE_INVOBJ2" ".active_invobj",
+    ActiveComponent "ACTIVE_COMPONENT" "active_component",
+    ActiveComponent2 "ACTIVE_COMPONENT2" ".active_component",
 }
 
 impl PointerType {
@@ -71,7 +73,8 @@ mod tests {
         assert_eq!(PointerType::for_name("active_npc2"), Some(PointerType::ActiveNpc2));
         assert_eq!(PointerType::for_name("ACTIVE_NPC"), Some(PointerType::ActiveNpc));
         assert_eq!(PointerType::for_name(".active_npc"), None);
-        assert_eq!(PointerType::ALL.len(), 24);
+        assert_eq!(PointerType::ALL.len(), 26);
+        assert_eq!(PointerType::for_name("active_component2"), Some(PointerType::ActiveComponent2));
         assert_eq!(PointerType::LastUseslot.index(), 21);
     }
 }

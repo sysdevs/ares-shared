@@ -3,6 +3,7 @@
 //! NPC mode tables and the compiled script file layout. Every value here reaches compiled script or
 //! pack bytes, so a change is an output change on both sides.
 
+pub mod client_opcode;
 pub mod opcode;
 pub mod pointer;
 pub mod script;
